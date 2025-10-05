@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function HeroSection() {
   return (
     <section className="relative bg-gradient-to-br from-[#6B46C1] to-[#553C9A] min-h-screen flex items-center justify-center overflow-hidden">
@@ -30,11 +32,13 @@ export default function HeroSection() {
           
           {/* Image */}
           <div className="flex-1 flex justify-center lg:justify-end">
-            <div className="relative">
-              <img
-                src="images/hero.jpg"
+            <div className="relative w-80 h-80 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem]">
+              <Image
+                src="/images/hero.jpg"
                 alt="Professional woman"
-                className="w-80 h-80 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem] object-cover rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                fill
+                className="object-cover rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                priority
               />
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-yellow-400 rounded-full opacity-20 animate-pulse"></div>

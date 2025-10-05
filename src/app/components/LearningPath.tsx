@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface LearningPath {
   id: number;
   title: string;
@@ -18,11 +20,16 @@ export default function LearningPath({ path }: LearningPathProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
       <div className="relative">
-        <img
-          src={path.thumbnail}
-          alt={path.title}
-          className="w-full h-32 object-cover"
-        />
+        <div className="w-full h-32 relative">
+          <Image
+            src={path.thumbnail}
+            alt={path.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            unoptimized
+          />
+        </div>
         <div className="absolute top-3 left-3">
           <span className="bg-purple-600 text-white text-xs font-medium px-2 py-1 rounded-full">
             Learning Path

@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface Course {
   id: number;
   title: string;
@@ -28,11 +30,16 @@ export default function CourseCard({ course }: CourseCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
       <div className="relative">
-        <img
-          src={course.thumbnail}
-          alt={course.title}
-          className="w-full h-48 object-cover"
-        />
+        <div className="w-full h-48 relative">
+          <Image
+            src={course.thumbnail}
+            alt={course.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            unoptimized
+          />
+        </div>
         {course.progress > 0 && (
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2">
             <div className="flex items-center justify-between text-sm">

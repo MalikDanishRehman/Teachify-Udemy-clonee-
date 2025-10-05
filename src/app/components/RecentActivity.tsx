@@ -41,7 +41,7 @@ export default function PricingPlans() {
         {/* Header Section */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Grow your team's skills and your business
+            Grow your team&apos;s skills and your business
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Reach goals faster with one of our plans or programs. Try one free today or contact sales to learn more.
