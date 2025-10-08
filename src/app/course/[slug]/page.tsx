@@ -43,13 +43,13 @@ function YouTubeEmbed({ videoId, title }: { videoId: string; title: string }) {
   );
 }
 
-export default function CoursePage({ params }: { params: { slug: string } }) {
+export default function CoursePage({ params }: { params: any }) {
   const videos = courseSlugToVideos[params.slug];
   if (!videos) return notFound();
 
   const title = params.slug
     .split('-')
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
     .join(' ');
 
   return (
