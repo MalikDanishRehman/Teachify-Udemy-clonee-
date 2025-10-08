@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Course {
   id: number;
@@ -26,6 +27,14 @@ export default function CourseCard({ course }: CourseCardProps) {
     }
     return num.toString();
   };
+
+  const toSlug = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
@@ -111,7 +120,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             )}
           </div>
           
-          <button className={`
+          <Link href={`/course/${toSlug(course.title)}`} className={`
             px-3 py-1.5 text-xs font-medium rounded-md transition-colors
             ${course.progress > 0 
               ? 'bg-purple-600 text-white hover:bg-purple-700' 
@@ -119,7 +128,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             }
           `}>
             {course.progress > 0 ? 'Continue' : 'Start Course'}
-          </button>
+          </Link>
         </div>
       </div>
     </div>

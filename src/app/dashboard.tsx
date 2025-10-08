@@ -8,7 +8,6 @@ import { useState } from 'react';
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import CourseCard from './components/CourseCard'
-import LearningPath from './components/LearningPath'
 import PricingPlans from './components/RecentActivity'
 import HeroSection from './components/HeroSection'
 import Footer from './components/Footer'
@@ -70,26 +69,6 @@ export default function Dashboard() {
     }
   ];
 
-  const learningPaths = [
-    {
-      id: 1,
-      title: "Full Stack Web Developer",
-      description: "Master both frontend and backend development",
-      courses: 8,
-      duration: "6 months",
-      progress: 60,
-      thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=225&fit=crop"
-    },
-    {
-      id: 2,
-      title: "Data Science Professional",
-      description: "Learn data analysis, machine learning, and visualization",
-      courses: 12,
-      duration: "8 months",
-      progress: 25,
-      thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop"
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,15 +84,6 @@ export default function Dashboard() {
           <div className="max-w-7xl mx-auto">
            
 
-            {/* Learning Paths */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Learning Paths</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {learningPaths.map((path) => (
-                  <LearningPath key={path.id} path={path} />
-                ))}
-              </div>
-            </div>
 
             {/* My Courses */}
             <div className="mb-8">

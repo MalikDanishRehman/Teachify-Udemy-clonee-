@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -53,14 +54,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
               </svg>
             </button>
 
-            {/* Login and Signup buttons */}
+            {/* Login and Signup links */}
             <div className="flex items-center space-x-2">
-              <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+              <Link href="/login" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Login
-              </button>
-              <button className="px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md transition-colors">
+              </Link>
+              <Link href="/signup" className="px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md transition-colors">
                 Sign Up
-              </button>
+              </Link>
             </div>          
           </div>
         </div>
