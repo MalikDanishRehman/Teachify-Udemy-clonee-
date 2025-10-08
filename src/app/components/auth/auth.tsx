@@ -30,8 +30,9 @@ export default function Auth({ variant }: AuthFormProps) {
         // Redirect to dashboard or home page
         window.location.href = '/dashboard';
       }
-    } catch (error: any) {
-      alert(`Error: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      alert(`Error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
