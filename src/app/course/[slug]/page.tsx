@@ -43,11 +43,12 @@ function YouTubeEmbed({ videoId, title }: { videoId: string; title: string }) {
   );
 }
 
-export default function CoursePage({ params }: { params: any }) {
-  const videos = courseSlugToVideos[params.slug];
+export default async function CoursePage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params;
+  const videos = courseSlugToVideos[slug];
   if (!videos) return notFound();
 
-  const title = params.slug
+  const title = slug
     .split('-')
     .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
     .join(' ');
