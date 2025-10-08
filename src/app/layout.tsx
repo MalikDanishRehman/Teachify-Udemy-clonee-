@@ -16,9 +16,13 @@ export const metadata: Metadata = {
   title: "EduLearn - Online Learning Platform",
   description: "Learn new skills with our comprehensive online courses. Master programming, design, business, and more.",
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/images/Title.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/Title.png', sizes: '16x16', type: 'image/png' },
+    ],
     shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    apple: '/images/Title.png',
   },
 };
 

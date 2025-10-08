@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { signUp, signIn } from '@/lib/supabaseClient';
 
 type AuthVariant = 'login' | 'signup';
 
@@ -20,8 +21,17 @@ export default function Auth({ variant }: AuthFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await new Promise((r) => setTimeout(r, 800));
-      alert(`${isSignup ? 'Account created' : 'Logged in'} successfully!`);
+      if (isSignup) {
+        await signUp(email, password, name);
+        alert('Account created successfully! Please check your email to confirm your account.');
+      } else {
+        await signIn(email, password);
+        alert('Logged in successfully!');
+        // Redirect to dashboard or home page
+        window.location.href = '/dashboard';
+      }
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
