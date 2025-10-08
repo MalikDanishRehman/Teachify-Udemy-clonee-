@@ -1,8 +1,15 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function HeroSection() {
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    router.push('/login');
+  };
+
   return (
     <section className="relative bg-gradient-to-br from-[#6B46C1] to-[#553C9A] min-h-screen flex items-center justify-center overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,7 +28,10 @@ export default function HeroSection() {
               our comprehensive learning platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <button 
+                onClick={handleGetStarted}
+                className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
                 Get Started
               </button>
               <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-purple-900 transition-all duration-300">

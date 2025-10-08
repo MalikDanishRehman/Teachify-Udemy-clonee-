@@ -17,11 +17,11 @@ export const metadata: Metadata = {
   description: "Learn new skills with our comprehensive online courses. Master programming, design, business, and more.",
   icons: {
     icon: [
-      { url: '/favicon.ico?v=2', sizes: 'any' },
-      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
+      { url: 'public/favicon.ico?v=2', sizes: 'any' },
+      { url: 'public/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
+      { url: 'public/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico?v=2',
+    shortcut: 'public/favicon.ico?v=2',
     apple: [
       { url: '/apple-touch-icon.png?v=2', sizes: '180x180', type: 'image/png' },
     ],
