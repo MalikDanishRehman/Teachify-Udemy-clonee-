@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 interface ToastProps {
   id: string;
   type: 'success' | 'error' | 'info' | 'warning';
@@ -10,7 +8,7 @@ interface ToastProps {
   onClose: () => void;
 }
 
-const Toast: React.FC<ToastProps> = ({ type, title, message, onClose }) => {
+const Toast: React.FC<ToastProps> = ({ type, message, onClose }) => {
   const getStyles = () => {
     switch (type) {
       case 'success': return 'bg-green-800';
