@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signOut, supabase } from '@/lib/supabaseClient';
 import Header from './Header';
+import Toast from './Toast';
 
 interface Course {
   id: string;
@@ -31,11 +32,36 @@ export default function DashboardContent() {
   const [activeTab, setActiveTab] = useState('overview');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [user, setUser] = useState<{ user_metadata?: { full_name?: string }; email?: string } | null>(null);
+  const [toasts, setToasts] = useState<Array<{id: string, type: string, title: string, message: string}>>([]);
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
 
+  const showToast = (type: 'success' | 'error' | 'info' | 'warning', title: string, message: string) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    setToasts(prev => [...prev, { id, type, title, message }]);
+    setTimeout(() => removeToast(id), 5000);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  };
+
   const handleMenuClick = () => {
-    // Sidebar functionality can be implemented here if needed
+    showToast('info', 'Menu', 'Sidebar menu clicked');
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      showToast('success', 'Signed Out', 'You have been successfully signed out');
+      router.push('/login');
+    } catch (error) {
+      showToast('error', 'Sign Out Failed', 'There was an error signing out. Please try again.');
+    }
+  };
+
+  const handleCourseClick = (courseTitle: string) => {
+    showToast('info', 'Course Selected', `Opening ${courseTitle}`);
   };
 
   // Get user data on component mount
@@ -287,6 +313,39 @@ export default function DashboardContent() {
           </div>
         )}
 
+        {/* Toast Demo Section */}
+        {activeTab === 'overview' && (
+          <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Toast Notification Demo</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => showToast('success', 'Success!', 'This is a success message.')}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Show Success Toast
+              </button>
+              <button
+                onClick={() => showToast('error', 'Error!', 'This is an error message.')}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Show Error Toast
+              </button>
+              <button
+                onClick={() => showToast('info', 'Info', 'This is an info message.')}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Show Info Toast
+              </button>
+              <button
+                onClick={() => showToast('warning', 'Warning!', 'This is a warning message.')}
+                className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
+              >
+                Show Warning Toast
+              </button>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'courses' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -338,6 +397,7 @@ export default function DashboardContent() {
                     
                     <Link
                       href={`/course/${course.id}`}
+                      onClick={() => handleCourseClick(course.title)}
                       className="block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                     >
                       {course.progress === 100 ? 'Review Course' : 'Continue Learning'}
@@ -392,6 +452,18 @@ export default function DashboardContent() {
           </div>
         )}
       </div>
+      
+      {/* Toast Notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          id={toast.id}
+          type={toast.type as 'success' | 'error' | 'info' | 'warning'}
+          title={toast.title}
+          message={toast.message}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
     </div>
   );
 }
