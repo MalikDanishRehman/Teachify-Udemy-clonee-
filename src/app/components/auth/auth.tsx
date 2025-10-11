@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { signUp, signIn } from '@/lib/supabaseClient';
+import Toast from '../Toast';
 
 type AuthVariant = 'login' | 'signup';
 
@@ -15,24 +16,50 @@ export default function Auth({ variant }: AuthFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toasts, setToasts] = useState<Array<{id: string, type: string, title: string, message: string}>>([]);
   const isSignup = variant === 'signup';
+
+  const showToast = (type: 'success' | 'error' | 'info' | 'warning', title: string, message: string) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    setToasts(prev => [...prev, { id, type, title, message }]);
+    setTimeout(() => removeToast(id), 5000);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (password.length < 6) {
+      showToast('warning', 'Password Too Short', 'Password must be at least 6 characters long.');
+      return;
+    }
+    
     setIsSubmitting(true);
+    showToast('info', 'Processing...', isSignup ? 'Creating your account...' : 'Signing you in...');
+    
     try {
       if (isSignup) {
         await signUp(email, password, name);
-        alert('Account created successfully! Please check your email to confirm your account.');
+        showToast('success', 'Account Created!', 'Please check your email to confirm your account.');
+        // Clear form
+        setName('');
+        setEmail('');
+        setPassword('');
       } else {
         await signIn(email, password);
-        alert('Logged in successfully!');
+        showToast('success', 'Welcome Back!', 'You have been successfully logged in.');
         // Redirect to dashboard or home page
-        window.location.href = '/dashboard';
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1500);
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-      alert(`Error: ${errorMessage}`);
+      showToast('error', 'Authentication Failed', errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -119,6 +146,18 @@ export default function Auth({ variant }: AuthFormProps) {
           )}
         </div>
       </div>
+      
+      {/* Toast Notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          id={toast.id}
+          type={toast.type as 'success' | 'error' | 'info' | 'warning'}
+          title={toast.title}
+          message={toast.message}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
     </section>
   );
 }
