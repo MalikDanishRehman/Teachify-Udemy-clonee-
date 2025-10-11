@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signOut } from '@/lib/supabaseClient';
+import { signOut, supabase } from '@/lib/supabaseClient';
 import Header from './Header';
 
 interface Course {
@@ -30,6 +30,7 @@ export default function DashboardContent() {
   const [activeTab, setActiveTab] = useState('overview');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -51,6 +52,17 @@ export default function DashboardContent() {
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
+
+  // Get user data on component mount
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setUser(session.user);
+      }
+    };
+    getUser();
+  }, []);
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -151,7 +163,9 @@ export default function DashboardContent() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, John!</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Welcome back, {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}!
+          </h2>
           <p className="text-gray-600">Continue your learning journey and track your progress.</p>
         </div>
 
