@@ -26,7 +26,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </button>
             
             <div className="flex items-center ml-4">
-              <h1 className="text-2xl font-bold text-purple-600">EduLearn</h1>
+              <h1 className="text-2xl font-bold text-purple-600">Teachify</h1>
             </div>
           </div>
 

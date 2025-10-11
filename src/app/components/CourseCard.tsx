@@ -20,6 +20,46 @@ interface CourseCardProps {
   course: Course;
 }
 
+// Sample course data
+const sampleCourses = [
+  {
+    id: 1,
+    title: "Complete Web Development Bootcamp",
+    instructor: "Dr. Angela Yu",
+    progress: 0,
+    duration: "65 hours",
+    rating: 4.7,
+    students: 125000,
+    thumbnail: "/images/hero.jpg",
+    price: "$89.99",
+    originalPrice: "$199.99"
+  },
+  {
+    id: 2,
+    title: "JavaScript: The Complete Guide",
+    instructor: "Maximilian Schwarzmüller",
+    progress: 35,
+    duration: "40 hours",
+    rating: 4.8,
+    students: 89000,
+    thumbnail: "/images/hero.jpg",
+    price: "$79.99",
+    originalPrice: "$149.99"
+  },
+  {
+    id: 3,
+    title: "React Native - The Practical Guide",
+    instructor: "Maximilian Schwarzmüller",
+    progress: 0,
+    duration: "25 hours",
+    rating: 4.6,
+    students: 45000,
+    thumbnail: "/images/hero.jpg",
+    price: "$69.99",
+    originalPrice: "$129.99"
+  }
+];
+
 export default function CourseCard({ course }: CourseCardProps) {
   const formatStudents = (num: number) => {
     if (num >= 1000) {
@@ -132,5 +172,25 @@ export default function CourseCard({ course }: CourseCardProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+// CourseSection component for displaying featured courses
+export function CourseSection() {
+  return (
+    <section className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Courses</h2>
+          <p className="text-lg text-gray-600">Discover our most popular courses</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sampleCourses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
