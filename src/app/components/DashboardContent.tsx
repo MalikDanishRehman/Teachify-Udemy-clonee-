@@ -92,7 +92,7 @@ export default function DashboardContent() {
     };
   }, [showUserMenu]);
 
-  // Sample data - in a real app, this would come from an API
+  // Sample user stats
   const userStats = {
     coursesEnrolled: 12,
     coursesCompleted: 8,
@@ -100,38 +100,50 @@ export default function DashboardContent() {
     certificates: 5
   };
 
+  // Sample courses array with thumbnails
   const courses: Course[] = [
-    {
-      id: '1',
-      title: 'Complete Web Development Bootcamp',
-      instructor: 'Dr. Sarah Johnson',
-      progress: 75,
-      duration: '8h 30m',
-      thumbnail: '/images/hero.jpg',
-      rating: 4.8,
-      students: 12500
+    { 
+      id: '1', 
+      title: 'Complete Web Development Bootcamp', 
+      instructor: 'Dr. Sarah Johnson', 
+      progress: 75, 
+      duration: '8h 30m', 
+      thumbnail: '/images/web.webp',  // ✅ fixed
+      rating: 4.8, 
+      students: 12500 
     },
-    {
-      id: '2',
-      title: 'Advanced React Patterns',
-      instructor: 'Mike Chen',
-      progress: 45,
-      duration: '6h 15m',
-      thumbnail: '/images/hero.jpg',
-      rating: 4.9,
-      students: 8900
+    { 
+      id: '2', 
+      title: 'Advanced React Patterns', 
+      instructor: 'Mike Chen', 
+      progress: 45, 
+      duration: '6h 15m', 
+      thumbnail: '/images/react.jpg',  // ✅ fixed
+      rating: 4.9, 
+      students: 8900 
     },
-    {
-      id: '3',
-      title: 'Data Science Fundamentals',
-      instructor: 'Dr. Emily Rodriguez',
-      progress: 100,
-      duration: '12h 45m',
-      thumbnail: '/images/hero.jpg',
-      rating: 4.7,
-      students: 15600
-    }
+    { 
+      id: '3', 
+      title: 'Vue.js Masterclass', 
+      instructor: 'Alex Thompson', 
+      progress: 0, 
+      duration: '5h 20m', 
+      thumbnail: 'https://images.unsplash.com/photo-1559526324-593bc073d938',
+      rating: 4.6, 
+      students: 7200 
+    },
+    { 
+      id: '4', 
+      title: 'Angular Complete Guide', 
+      instructor: 'Maria Garcia', 
+      progress: 0, 
+      duration: '10h 45m', 
+      thumbnail: '/images/hero.jpg',  // ✅ fixed
+      rating: 4.7, 
+      students: 9800 
+    },
   ];
+  
 
   const recentActivity: RecentActivity[] = [
     {
@@ -172,12 +184,51 @@ export default function DashboardContent() {
       {/* Header */}
       <Header onMenuClick={handleMenuClick} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome back, {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}!
-          </h2>
-          <p className="text-gray-600">Continue your learning journey and track your progress.</p>
+        {/* Hero Section */}
+        <div className="relative mb-12 rounded-2xl overflow-hidden shadow-2xl">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/dash-hero.jpg')" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-purple-800/70 to-transparent" />
+          <div className="relative z-10 px-8 py-16 lg:px-12 lg:py-20">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                Welcome back, {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}!
+              </h1>
+              <p className="text-xl text-purple-100 mb-8 leading-relaxed">
+                Continue your learning journey and unlock your potential with our comprehensive courses.
+              </p>
+              <div className="flex flex-wrap gap-6 mb-8">
+                <div className="flex items-center text-white">
+                  <div className="w-3 h-3 bg-green-400 rounded-full mr-3"></div>
+                  <span className="text-lg font-semibold">{userStats.coursesEnrolled} Courses</span>
+                </div>
+                <div className="flex items-center text-white">
+                  <div className="w-3 h-3 bg-blue-400 rounded-full mr-3"></div>
+                  <span className="text-lg font-semibold">{userStats.totalHours}h Learning</span>
+                </div>
+                <div className="flex items-center text-white">
+                  <div className="w-3 h-3 bg-yellow-400 rounded-full mr-3"></div>
+                  <span className="text-lg font-semibold">{userStats.certificates} Certificates</span>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button 
+                  onClick={() => setActiveTab('courses')}
+                  className="px-8 py-4 bg-white text-purple-900 font-semibold rounded-lg hover:bg-purple-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Continue Learning
+                </button>
+                <button 
+                  onClick={() => setActiveTab('progress')}
+                  className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-purple-900 transition-all duration-300"
+                >
+                  View Progress
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -313,95 +364,66 @@ export default function DashboardContent() {
           </div>
         )}
 
-        {/* Toast Demo Section */}
-        {activeTab === 'overview' && (
-          <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Toast Notification Demo</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={() => showToast('success', 'Success!', 'This is a success message.')}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Show Success Toast
-              </button>
-              <button
-                onClick={() => showToast('error', 'Error!', 'This is an error message.')}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-              >
-                Show Error Toast
-              </button>
-              <button
-                onClick={() => showToast('info', 'Info', 'This is an info message.')}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Show Info Toast
-              </button>
-              <button
-                onClick={() => showToast('warning', 'Warning!', 'This is a warning message.')}
-                className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
-              >
-                Show Warning Toast
-              </button>
-            </div>
-          </div>
-        )}
-
         {activeTab === 'courses' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-gray-900">My Courses</h3>
+              <h3 className="text-lg font-semibold text-gray-900">All Courses ({courses.length})</h3>
               <Link href="/course/new" className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                Browse Courses
+                Browse More Courses
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {courses.map((course) => (
-                <div key={course.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div 
+                  key={course.id} 
+                  className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer transform hover:scale-105"
+                  onClick={() => handleCourseClick(course.title)}
+                >
                   <div className="aspect-w-16 aspect-h-9">
                     <Image
                       src={course.thumbnail}
                       alt={course.title}
-                      width={400}
-                      height={192}
-                      className="w-full h-48 object-cover"
+                      width={300}
+                      height={150}
+                      className="w-full h-32 object-cover"
                     />
                   </div>
-                  <div className="p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{course.title}</h4>
-                    <p className="text-sm text-gray-600 mb-3">by {course.instructor}</p>
+                  <div className="p-4">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-2 leading-tight">{course.title}</h4>
+                    <p className="text-xs text-gray-600 mb-2">by {course.instructor}</p>
                     
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center">
-                        <svg className="h-4 w-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="h-3 w-3 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <span className="text-sm text-gray-600">{course.rating}</span>
-                        <span className="text-sm text-gray-400 ml-1">({course.students.toLocaleString()})</span>
+                        <span className="text-xs text-gray-600">{course.rating}</span>
+                        <span className="text-xs text-gray-400 ml-1">({(course.students/1000).toFixed(1)}k)</span>
                       </div>
-                      <span className="text-sm text-gray-500">{course.duration}</span>
+                      <span className="text-xs text-gray-500">{course.duration}</span>
                     </div>
                     
-                    <div className="mb-4">
-                      <div className="flex justify-between text-sm text-gray-600 mb-1">
+                    {course.progress > 0 && (
+                      <div className="mb-3">
+                        <div className="flex justify-between text-xs text-gray-600 mb-1">
                         <span>Progress</span>
                         <span>{course.progress}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-1.5">
                         <div
-                          className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${course.progress}%` }}
-                        ></div>
+                            className="bg-purple-600 h-1.5 rounded-full transition-all duration-300"
+                            style={{ width: `${course.progress}%` }}
+                          ></div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     
-                    <Link
-                      href={`/course/${course.id}`}
-                      onClick={() => handleCourseClick(course.title)}
-                      className="block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                    >
-                      {course.progress === 100 ? 'Review Course' : 'Continue Learning'}
-                    </Link>
+                    <div className="text-center">
+                      <span className="text-xs font-medium text-purple-600">
+                        {course.progress === 100 ? 'Completed' : course.progress > 0 ? 'Continue' : 'Start Course'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
