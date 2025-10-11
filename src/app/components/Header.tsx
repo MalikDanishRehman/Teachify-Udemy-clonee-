@@ -12,7 +12,7 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ user_metadata?: { full_name?: string }; email?: string } | null>(null);
   const router = useRouter();
 
   // Check authentication status

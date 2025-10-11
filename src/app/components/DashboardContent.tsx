@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signOut, supabase } from '@/lib/supabaseClient';
 import Header from './Header';
@@ -29,28 +30,12 @@ interface RecentActivity {
 export default function DashboardContent() {
   const [activeTab, setActiveTab] = useState('overview');
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ user_metadata?: { full_name?: string }; email?: string } | null>(null);
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      // Redirect to the home page (previous page before login)
-      router.push('/');
-    } catch (error) {
-      console.error('Error signing out:', error);
-      alert('Error signing out. Please try again.');
-    }
-  };
-
   const handleMenuClick = () => {
-    setSidebarOpen(true);
-  };
-
-  const handleSidebarClose = () => {
-    setSidebarOpen(false);
+    // Sidebar functionality can be implemented here if needed
   };
 
   // Get user data on component mount
@@ -315,9 +300,11 @@ export default function DashboardContent() {
               {courses.map((course) => (
                 <div key={course.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                   <div className="aspect-w-16 aspect-h-9">
-                    <img
+                    <Image
                       src={course.thumbnail}
                       alt={course.title}
+                      width={400}
+                      height={192}
                       className="w-full h-48 object-cover"
                     />
                   </div>
