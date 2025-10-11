@@ -50,16 +50,7 @@ export default function DashboardContent() {
     showToast('info', 'Menu', 'Sidebar menu clicked');
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      showToast('success', 'Signed Out', 'You have been successfully signed out');
-      router.push('/login');
-    } catch (error) {
-      showToast('error', 'Sign Out Failed', 'There was an error signing out. Please try again.');
-    }
-  };
-
+  
   const handleCourseClick = (courseTitle: string) => {
     showToast('info', 'Course Selected', `Opening ${courseTitle}`);
   };
@@ -190,13 +181,13 @@ export default function DashboardContent() {
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/images/dash-hero.jpg')" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-purple-800/70 to-transparent" />
+          <div className="absolute  via-purple-800/70 to-transparent" />
           <div className="relative z-10 px-8 py-16 lg:px-12 lg:py-20">
             <div className="max-w-2xl">
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+              <h1 className="text-4xl lg:text-6xl font-bold text-black mb-4 leading-tight">
                 Welcome back, {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}!
               </h1>
-              <p className="text-xl text-purple-100 mb-8 leading-relaxed">
+              <p className="text-xl text-black-100 mb-8 leading-relaxed">
                 Continue your learning journey and unlock your potential with our comprehensive courses.
               </p>
               <div className="flex flex-wrap gap-6 mb-8">
